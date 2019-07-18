@@ -30,9 +30,22 @@ fred.name = "Brick"
 fred.weight = 999.2
 fred.homePlanet = "Mars"
 ```
+fred.homePlanet = "Mars" will not work because in the class it is a let constant not allowing it to change
 
 Fix the class definition for `Giant` in the space below so that it **does** work:
+```swift
+class Giant {
+var name: String
+var weight: Double
+var homePlanet: String //<-- fixed
 
+init(name: String, weight: Double, homePlanet: String) {
+self.name = name
+self.weight = weight
+self.homePlanet = homePlanet
+}
+}
+```
 
 ## Question 2
 
@@ -54,9 +67,12 @@ bilbo.name = "Jake"
 bilbo.height = 1.42
 bilbo.homePlanet = "Saturn"
 ```
+No this code won't work because eventhough it's changeable because it's a variable in struct Alien. but when you created bilbo it was declared as a constant so your's unable to change value assigned in bilbo
 
 Change the declaration of `bilbo` so that the above three lines of code **do** work:
-
+```swift
+var bilbo = Alien(name: "Bilbo", height: 1.67, homePlanet: "Venus")
+```
 
 ## Question 3
 
@@ -70,6 +86,7 @@ jason.name = "Jason"
 
 What will the value of `edgar.name` be after those three lines of code are run? What will the value of `jason.name` be? Why?
 
+edgar name will be Edgar while jason name can't change and also be Edgar
 
 ## Question 4
 
@@ -83,6 +100,8 @@ charlesFromJupiter.homePlanet = "Jupiter"
 
 What will the value of `charles.homePlanet` be after the above code run? What about the value of `charlesFromJupiter.homePlanet`? Why?
 
+charles.homePlanet will be pluto while charlesFromJupiter.homePlanet will be jupiter because it was changed
+
 
 ## Question 5
 
@@ -93,20 +112,21 @@ struct BankAccount {
  var owner: String
  var balance: Double
 
- func deposit(_ amount: Double) {
+ mutating func deposit(_ amount: Double) {
  balance += amount
  }
 
- func withdraw(_ amount: Double) {
+ mutating func withdraw(_ amount: Double) {
  balance -= amount
  }
 }
 ```
 
 Does this code work? Why or why not?
+no we have to change the func into a mutating function 
 
 Fix the `BankAccount` struct so it does work.
-
+-added mutating ->mutating func withdraw(_ amount: Double) {}
 Given the code below (which should incorporate any fixes you made):
 
 ```swift
@@ -116,23 +136,98 @@ joeAccount.withdraw(50.0)
 ```
 
 What will the value of `joeAccount.balance` be after the above code runs? What about the value of `joeOtherAccount.balance`? Why?
+at first there is $100.00 then he took out $50.0 leaving him with $50.0
 
 
 ## Question 6
 
 a. Write a struct called `Person` that has 3 properties of type `String`: a first name, a last name and a middle name. Have the middle name be optional. Create 2 instances of a `Person`, one with a middle name and one without. Print one of their first names.
+```swift
+struct Person{
+var name: String
+var middleName: String?
+var lastName: String
+}
 
+let juno = Person (name: "Juno", middleName: "jr", lastName: "li")
+let tom = Person(name: "Tom", middleName: nil , lastName: "keith")
+print(tom.name)
+```
 
 b. Write a method in `Person` called `fullName` that will return a formatted string of an instance's full name. Call this method on both the instances you created in part a.
+```swift
+struct Person{
+var name: String
+var middleName: String?
+var lastName: String
 
+func fullName()-> String{
+if let midName = middleName {
+return name + midName + lastName
+}
+else{
+return name + " " + lastName
+}
+}
+}
 
+let juno = Person (name: "Juno", middleName: "jr", lastName: "li")
+let tom = Person(name: "Tom", middleName: nil, lastName: "keith")
+print(tom.fullName())
+```
 ## Question 7
 
 a. Create a class called `Book` that has properties `title`, `author` and `rating`, of type `String`, `String`, and `Double` respectively. Don't forget the initializer. Create some instances of `Book`.
+```swift
+class BooK{
+var title: String = " "
+var author: String = " "
+var rating: Double = 0.0
 
+init(){
+title = "The Lightning Thief"
+author = "Rick Riordan"
+rating = 9.5
+
+title = "Crippled America: How to Make America Great Again "
+author = "Donald J. Trump"
+rating = 3.1
+}
+}
+```
 
 b. Add a method to `Book` called `isGood` that returns `true` if its rating is greater than or equal to 7
+```swift
+class BooK{
+var title: String = " "
+var author: String = " "
+var rating: Double = 0.0
 
+init(){
+title = "The Lightning Thief"
+author = "Rick Riordan"
+rating = 9.5
+
+}
+//    title = "Crippled America: How to Make America Great Again "
+//    author = "Donald J. Trump"
+//    rating = 3.1
+
+func isGood()-> Bool{
+if rating >= 7.0{
+print("\(title) is Good")
+return true
+}
+else{
+return false
+
+}
+}
+}
+
+let aBook = BooK.init()
+print(aBook.isGood())
+```
 
 ## Question 8
 
@@ -153,6 +248,14 @@ dog1.breed //returns "unknown"
 dog1.mood //returns "calm"
 dog1.hungry //returns false
 ```
+```swift
+class Dog {
+var name: String = "dog"
+var breed: String = "unknown"
+var mood: String = "calm"
+var hungry: Bool = false
+}
+```
 
 b. Add an `init` method so that you can initialize new dogs with values for name, breed, mood, and hungry. It should still have the same default values for these properties
 
@@ -162,6 +265,21 @@ dog2.name //returns "Oreo"
 dog2.breed //returns "English Setter"
 dog2.mood //returns 'excited'
 dog2.hungry //returns true
+```
+```swift
+class Dog {
+var name: String = "dog"
+var breed: String = "unknown"
+var mood: String = "calm"
+var hungry: Bool = false
+
+init(){
+name = "Oreo"
+breed = "English Setter"
+mood = "excited"
+hungry = true
+}
+}
 ```
 
 c. Add an instance method called `playFetch()`. It should set the dog's `hungry` property to `true`, set its mood property to `playful`, and print "Ruff!"
@@ -183,10 +301,68 @@ dog4.hungry //returns true
 dog4.feed() //prints "Woof!"
 dog4.hungry //returns false
 ```
+```swift
+class Dog {
+var name: String = "dog"
+var breed: String = "unknown"
+var mood: String = "calm "
+var hungry: Bool = false
+
+init(name:String, breed:String, mood:String, hungry:Bool){
+self.name = name
+self.breed = breed
+self.mood = mood
+self.hungry = hungry
+}
+
+func playFetch(){
+hungry = true
+mood = "playful"
+print("Ruff!")
+}
+}
+
+dog3.hungry //returns false
+dog3.mood //returns "excited"
+dog3.playFetch() //prints "Ruff!"
+dog3.hungry //returns true
+dog3.mood //returns "playful"
+```
 
 e. Add an instance method called `toString` that returns a `String` type description of the dog:
 
 ```swift
+var dog5 = Dog(name: "Rascal", breed: "Golden Retriever", mood: "feeling pawesome", hungry: true)
+print(dog5.toString())
+//prints:
+//Name: Rascal
+//Breed: Golden Retriever
+//Mood: feeling pawesome
+```
+```swift
+class Dog {
+var name: String = "dog"
+var breed: String = "unknown"
+var mood: String = "calm "
+var hungry: Bool = false
+
+init(name:String, breed:String, mood:String, hungry:Bool){
+self.name = name
+self.breed = breed
+self.mood = mood
+self.hungry = hungry
+}
+
+func playFetch(){
+hungry = true
+mood = "playful"
+print("Ruff!")
+}
+func toString()->String{
+return "Name:\(name) Breed:\(breed) Mood:\(mood)"
+}
+}
+
 var dog5 = Dog(name: "Rascal", breed: "Golden Retriever", mood: "feeling pawesome", hungry: true)
 print(dog5.toString())
 //prints:
